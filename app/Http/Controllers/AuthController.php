@@ -9,6 +9,40 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    public function register(Request $request): JsonResponse
+    {
+        try {
+                $request->validate([
+                    'name' => 'required|string|max:255',
+                    'email' => 'required|email|unique:users,email',  
+                    'password' => 'required|string|min:8|confirmed', 
+                ], [
+                    'email.unique' => 'O email já está em uso.',
+                    'password.confirmed' => 'As senhas não coincidem.',
+                    'password.min' => 'A senha deve ter pelo menos 8 caracteres.',
+                ]);
+
+                $user = User::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                ]);
+
+                $token = $user->createToken('PersonalAccessToken')->plainTextToken;
+
+                return response()->json([
+                    'message' => 'Usuário cadastrado com sucesso!', 
+                    'token' => $token
+                ], 201);
+
+            } catch (\Illuminate\Validation\ValidationException $e) {
+                return response()->json([
+                    'message' => 'Erro de validação',
+                    'errors' => $e->errors()
+                ], 422);
+            }
+    }
+
     public function login(Request $request): JsonResponse
     {
         $request->validate([
