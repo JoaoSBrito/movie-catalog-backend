@@ -29,3 +29,10 @@ Route::get('/movie/toprated',
 Route::get('/movie/search', 
     [TMDBController::class, 'search']
 );
+
+// Favorite Routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/favorite', [\App\Http\Controllers\FavoriteController::class, 'list']);
+    Route::post('/favorite', [\App\Http\Controllers\FavoriteController::class, 'store']);
+    Route::delete('/favorite/{id}', [\App\Http\Controllers\FavoriteController::class, 'delete']);
+});
