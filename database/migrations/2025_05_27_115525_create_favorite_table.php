@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('favorite', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->unsignedBigInteger('movie_id');
+            $table->unsignedBigInteger('tmdb_id');
 
             $table->timestamps();
         });

@@ -12,7 +12,7 @@ class FavoriteController extends Controller
         $favorites = Favorite::where('user_id', $request->user()->id)->get();
 
         return [
-            'favorites' => $favorites,
+            'favorite' => $favorites,
         ];
     }
 
@@ -20,19 +20,19 @@ class FavoriteController extends Controller
     {
         $favorite = Favorite::create([
             'user_id' => $request->user()->id,
-            'movie_id' => $request->input('movie_id'),
+            'tmdb_id' => $request->input('tmdb_id'),
         ]);
 
         return [
             'message' => 'Item adicionado aos favoritos com sucesso.',
-            'favorites' => $favorite,
+            'favorite' => $favorite,
         ];
     }
 
-    public function delete(Request $request, int $movie_id): array
+    public function delete(Request $request, int $tmdb_id): array
     {
         $favorite = Favorite::where('user_id', $request->user()->id)
-            ->where('movie_id', $movie_id)
+            ->where('tmdb_id', $tmdb_id)
             ->firstOrFail();
 
         $favorite->delete();
