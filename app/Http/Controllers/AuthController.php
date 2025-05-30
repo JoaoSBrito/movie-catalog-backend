@@ -36,9 +36,10 @@ class AuthController extends Controller
                 ], 201);
 
             } catch (\Illuminate\Validation\ValidationException $e) {
+                $err = collect($e->errors())->flatten()->first();
+
                 return response()->json([
-                    'message' => 'Erro de validação',
-                    'errors' => $e->errors()
+                    'message' =>  $err ?? 'Erro no cadastro',
                 ], 422);
             }
     }
