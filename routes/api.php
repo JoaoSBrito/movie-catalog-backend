@@ -22,7 +22,7 @@ Route::get('/movie/upcoming',
     [TMDBController::class, 'upcoming']
 );
 
-Route::get('/movie/toprated', 
+Route::get('/movie/top_rated', 
     [TMDBController::class, 'toprated']
 );
 
