@@ -37,7 +37,7 @@ class AuthTest extends TestCase
         ]);
 
         $response->assertStatus(422);
-        $response->assertJsonValidationErrors(['email']);
+        $response->assertJson(['message' => 'O email já está em uso.']);
     }
 
     public function test_user_login_successfully()

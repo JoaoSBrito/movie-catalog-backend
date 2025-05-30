@@ -31,12 +31,11 @@ class FavoriteController extends Controller
 
     public function store(Request $request): array
     {
-        $favorite = Favorite::create([
-            'user_id' => $request->user()->id,
-            'tmdb_id' => $request->input('tmdb_id'),
-        ]);
+        $request->validate(['tmdb_id' => 'required']);
+        $user_id = $request->user()->id;
+        $tmdb_id = $request->input('tmdb_id');
 
-        $exists = Favorite::where('user_id', $request->user()->id)->where('tmdb_id', $request->input('tmdb_id'))->exists();
+        $exists = Favorite::where('user_id', $user_id)->where('tmdb_id', $tmdb_id)->exists();
 
         if ($exists) {
             return [
@@ -44,6 +43,11 @@ class FavoriteController extends Controller
                 'favorite' => null,
             ];
         }
+
+        $favorite = Favorite::create([
+            'user_id' => $user_id,
+            'tmdb_id' => $tmdb_id,
+        ]);
 
         return [
             'message' => 'Item adicionado aos favoritos com sucesso.',

@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\User;
 use App\Models\Favorite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class FavoriteTest extends TestCase
@@ -22,12 +23,34 @@ class FavoriteTest extends TestCase
     
     public function test_user_can_list_favorites()
     {
+        Http::fake([
+            'https://api.themoviedb.org/*' => Http::response([
+                'id' => 1234,
+                'title' => 'Filme Fake'
+            ], 200),
+        ]);
+
         $user = User::factory()->create();
         Favorite::factory()->count(2)->create(['user_id' => $user->id]);
 
         $response = $this->actingAs($user)->getJson('/api/favorite');
+
         $response->assertStatus(200);
-        $response->assertJsonCount(2, 'favorite');
+        $response->assertJsonCount(2, 'favorites');
+    }
+
+    public function test_user_cant_add_same_favorite()
+    {
+        $user = User::factory()->create();
+        $favorite = Favorite::factory()->create(['user_id' => $user->id]);
+
+
+        $response = $this->actingAs($user)->postJson('/api/favorite', ['tmdb_id' => $favorite->tmdb_id]);
+        $response->assertStatus(200);
+        $response->assertJson([
+            'message' => 'Filme já está nos favoritos',
+            'favorite' => null
+        ]);
     }
 
     public function test_user_can_add_favorites()

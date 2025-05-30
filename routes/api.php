@@ -4,7 +4,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TMDBController;
 
-// AUTH Routes
+// Auth Routes
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
@@ -14,21 +14,10 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
 // TMDB API Routes
-Route::get('/movie/popular', 
-    [TMDBController::class, 'popular']
-);
-
-Route::get('/movie/upcoming', 
-    [TMDBController::class, 'upcoming']
-);
-
-Route::get('/movie/top_rated', 
-    [TMDBController::class, 'toprated']
-);
-
-Route::get('/movie/search', 
-    [TMDBController::class, 'search']
-);
+Route::get('/movie/popular', [TMDBController::class, 'popular']);
+Route::get('/movie/upcoming', [TMDBController::class, 'upcoming']);
+Route::get('/movie/top_rated', [TMDBController::class, 'toprated']);
+Route::get('/movie/search', [TMDBController::class, 'search']);
 
 // Favorite Routes
 Route::middleware('auth:sanctum')->group(function () {
