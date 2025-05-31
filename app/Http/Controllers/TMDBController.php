@@ -42,7 +42,8 @@ class TMDBController extends Controller
         $query = $request->input('query');
         $response = Http::get("https://api.themoviedb.org/3/search/movie", [
             'api_key' => env('TMDB_API_KEY'),
-            'query' => $query
+            'query' => $query,
+            'language' => 'pt-BR'
         ]);
 
         return $response->json();
