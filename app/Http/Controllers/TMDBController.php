@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 
@@ -48,4 +49,15 @@ class TMDBController extends Controller
 
         return $response->json();
     }
+
+    public function genres()
+    {
+        $response = Http::get("https://api.themoviedb.org/3/genre/movie/list", [
+            'api_key' => env('TMDB_API_KEY'),
+            'language' => 'pt-BR'
+        ]);
+
+        return $response->json();
+    }
+
 }

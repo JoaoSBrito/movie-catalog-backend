@@ -18,6 +18,7 @@ Route::get('/movie/popular', [TMDBController::class, 'popular']);
 Route::get('/movie/upcoming', [TMDBController::class, 'upcoming']);
 Route::get('/movie/top_rated', [TMDBController::class, 'toprated']);
 Route::get('/movie/search', [TMDBController::class, 'search']);
+Route::get('/movie/genres', [TMDBController::class, 'genres']);
 
 // Favorite Routes
 Route::middleware('auth:sanctum')->group(function () {
