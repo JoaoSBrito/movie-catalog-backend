@@ -68,3 +68,13 @@ Para fazer o deploy desse projeto, rode:
 
 ```bash
 ./vendor/bin/sail up -d
+```
+
+---
+
+## 🧪 Rodando os Testes
+
+Para rodar os testes, utilize o seguinte comando:
+
+```bash
+./vendor/bin/sail test
